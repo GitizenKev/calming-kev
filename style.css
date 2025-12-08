@@ -1,0 +1,141 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* Crisp text on iOS */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    /* Remove tap highlight */
+    background-color: #000000;
+    /* Black background */
+    color: #eceff1;
+    /* Light grey text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Dynamic viewport height for mobile browsers */
+    text-align: center;
+    /* Prevent elastic scrolling on iOS */
+    overscroll-behavior: none;
+}
+
+/* Layout Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    /* Mobile-first constraint */
+    padding: 20px;
+    /* iOS Safe Area Insets */
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+}
+
+/* Video Styling */
+.memoji-video {
+    width: 100%;
+    max-width: 200px;
+    /* Reasonable size for the video */
+    border-radius: 20px;
+    margin-bottom: 24px;
+    /* Removed shadow as it might look odd on black, or keep it subtle */
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Typography */
+h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+    color: #cfd8dc;
+}
+
+#breathing-text {
+    font-size: 1.25rem;
+    margin-top: 32px;
+    font-weight: 400;
+    color: #b0bec5;
+    min-height: 1.5em;
+    /* Prevent layout shift */
+    transition: opacity 0.5s ease;
+}
+
+/* Breathing Animation Circle */
+.breathing-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #f8bbd0;
+    /* Pastel Pink */
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(248, 187, 208, 0.4);
+
+    /* Animation: 10.378005s total */
+    animation: breathe 10.378005s linear infinite;
+    /* Linear to match precise timing points */
+}
+
+/* Keyframes */
+@keyframes breathe {
+    0% {
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        background-color: #f8bbd0;
+    }
+
+    17.34% {
+        /* 1.8s: Start Inhale */
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        background-color: #f8bbd0;
+    }
+
+    48.18% {
+        /* 5s: End Inhale */
+        width: 180px;
+        height: 180px;
+        opacity: 1;
+        background-color: #f48fb1;
+        /* Slightly deeper pink */
+    }
+
+    86.72% {
+        /* 9s: End Exhale */
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        background-color: #f8bbd0;
+    }
+
+    100% {
+        /* End Cycle */
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        background-color: #f8bbd0;
+    }
+}
+
+/* Responsive adjustments */
+@media (min-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .memoji-video {
+        max-width: 250px;
+    }
+}
