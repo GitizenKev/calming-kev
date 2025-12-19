@@ -82,8 +82,47 @@ h1 {
     box-shadow: 0 0 20px rgba(248, 187, 208, 0.4);
 
     /* Animation: 10.378005s total */
+    /* Animation: 10.378005s total */
+    /* animation: breathe 10.378005s linear infinite; - Moved to .active class */
+}
+
+.breathing-circle.active {
     animation: breathe 10.378005s linear infinite;
-    /* Linear to match precise timing points */
+}
+
+/* Overlay Styling */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    cursor: pointer;
+}
+
+#overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content p {
+    font-size: 1.5rem;
+    color: #eceff1;
+    font-weight: 300;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
 }
 
 /* Keyframes */

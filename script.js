@@ -1,15 +1,19 @@
 const textElement = document.getElementById('breathing-text');
+const video = document.querySelector('.memoji-video');
 
-const totalTime = 10378.005; // exact cycle time in ms (10.378005s)
-const inhaleStart = 1800; // 1.8s
-const exhaleStart = 5000; // 5.0s
-const pauseStart = 9000; // 9.0s
+// Exact cycle timing (ms)
+const totalTime = 10378.005;
+const inhaleStart = 1800;
+const exhaleStart = 5000;
+const pauseStart = 9000;
 
-let startTime = performance.now();
+let startTime = null;
 
 function updateBreathingText() {
+    if (startTime === null) return;
+
     const now = performance.now();
-    let elapsed = (now - startTime) % totalTime;
+    const elapsed = (now - startTime) % totalTime;
 
     if (elapsed < inhaleStart) {
         textElement.innerText = 'Pause...';
@@ -24,15 +28,37 @@ function updateBreathingText() {
     requestAnimationFrame(updateBreathingText);
 }
 
-// Start sync loop
-updateBreathingText();
-
-// Ensure video stays aligned with cycle
-const video = document.querySelector('.memoji-video');
-if (video) {
+/**
+ * Start everything in perfect sync
+ * ONLY once the video is ready and seeked
+ */
+function startSyncedPlayback() {
     video.currentTime = 0;
-    video.play().catch(() => {
-        console.log("Autoplay prevented");
-        document.body.addEventListener('click', () => video.play(), { once: true });
-    });
+
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            startTime = performance.now();
+            requestAnimationFrame(updateBreathingText);
+        }).catch(() => {
+            console.log('Autoplay prevented');
+
+            document.body.addEventListener('click', () => {
+                video.play().then(() => {
+                    startTime = performance.now();
+                    requestAnimationFrame(updateBreathingText);
+                });
+            }, { once: true });
+        });
+    }
+}
+
+// iOS-safe readiness check
+if (video) {
+    if (video.readyState >= 2) {
+        startSyncedPlayback();
+    } else {
+        video.addEventListener('loadedmetadata', startSyncedPlayback, { once: true });
+    }
 }
