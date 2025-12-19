@@ -9,20 +9,50 @@ const pauseStart = 9000;
 
 let startTime = null;
 
+let previousState = 'PAUSE';
+
 function updateBreathingText() {
     if (startTime === null) return;
 
     const now = performance.now();
     const elapsed = (now - startTime) % totalTime;
 
+    let currentState;
+    let text;
+
     if (elapsed < inhaleStart) {
-        textElement.innerText = 'Pause...';
+        currentState = 'PAUSE';
+        text = 'Pause...';
     } else if (elapsed < exhaleStart) {
-        textElement.innerText = 'Inhale...';
+        currentState = 'INHALE';
+        text = 'Inhale...';
     } else if (elapsed < pauseStart) {
-        textElement.innerText = 'Exhale...';
+        currentState = 'EXHALE';
+        text = 'Exhale...';
     } else {
-        textElement.innerText = 'Pause...';
+        currentState = 'PAUSE';
+        text = 'Pause...';
+    }
+
+    // Update text
+    if (textElement.innerText !== text) {
+        textElement.innerText = text;
+    }
+
+    // Haptic Feedback on State Change
+    if (currentState !== previousState) {
+        if (currentState === 'INHALE') {
+            // Short pulse (20ms) for awareness
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(20);
+            }
+        } else if (currentState === 'EXHALE') {
+            // slightly longer pulse (30ms) for release
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(30);
+            }
+        }
+        previousState = currentState;
     }
 
     requestAnimationFrame(updateBreathingText);
