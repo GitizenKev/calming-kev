@@ -139,22 +139,3 @@ h1 {
         max-width: 250px;
     }
 }
-/* Visual Haptic Pulse */
-@keyframes haptic-pulse-anim {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(248, 187, 208, 0.4);
-    }
-    50% {
-        transform: scale(1.05); /* Subtle expansion */
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); /* Bright flash */
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(248, 187, 208, 0.4);
-    }
-}
-
-.haptic-pulse {
-    animation: haptic-pulse-anim 0.2s ease-out !important;
-}

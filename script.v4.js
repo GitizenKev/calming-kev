@@ -39,15 +39,6 @@ function updateBreathingText() {
         textElement.innerText = text;
     }
 
-    const breathingCircle = document.querySelector('.breathing-circle');
-
-    function triggerVisualHaptic() {
-        breathingCircle.classList.remove('haptic-pulse');
-        // Force reflow
-        void breathingCircle.offsetWidth;
-        breathingCircle.classList.add('haptic-pulse');
-    }
-
     // Haptic Feedback on State Change
     if (currentState !== previousState) {
         if (currentState === 'INHALE') {
@@ -55,13 +46,11 @@ function updateBreathingText() {
             if (window.navigator && window.navigator.vibrate) {
                 window.navigator.vibrate(20);
             }
-            triggerVisualHaptic();
         } else if (currentState === 'EXHALE') {
             // slightly longer pulse (30ms) for release
             if (window.navigator && window.navigator.vibrate) {
                 window.navigator.vibrate(30);
             }
-            triggerVisualHaptic();
         }
         previousState = currentState;
     }
